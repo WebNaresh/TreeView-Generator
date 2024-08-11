@@ -1,7 +1,7 @@
 {
   "name": "treeview-generator",
   "displayName": "TreeView Generator",
-  "description": "Directory Tree Explorer",
+  "description": "Generate and view the directory tree structure of your workspace.",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.92.0"
@@ -9,13 +9,15 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "*"
+  ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "treeview-generator.helloWorld",
-        "title": "Hello World"
+        "command": "extension.generateDirectoryTree",
+        "title": "Generate Directory Tree"
       }
     ]
   },
