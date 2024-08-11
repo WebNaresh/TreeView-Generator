@@ -2,10 +2,11 @@
   "name": "treeview-generator",
   "displayName": "TreeView Generator",
   "description": "Generate and view the directory tree structure of your workspace.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.92.0"
   },
+  "publisher": "WebNaresh",
   "categories": [
     "Other"
   ],
@@ -60,5 +61,6 @@
     "webpack-cli": "^5.1.4",
     "@vscode/test-cli": "^0.0.9",
     "@vscode/test-electron": "^2.4.0"
-  }
+  },
+  "icon": "images/tree-view-logo.png"
 }
