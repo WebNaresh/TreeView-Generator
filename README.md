@@ -3,8 +3,7 @@
 A simple Visual Studio Code extension that generates a directory tree structure for your project and saves it to a `Tree.md` file in the root of your workspace. It also detects the framework used in your project and adjusts the directory tree accordingly.
 
 ## Video Demonstration
-
-[![Directory Tree Generator Extension](https://img.youtube.com/vi/YOUR_VIDEO_ID/0.jpg)](https://www.youtube.com/watch?v=YOUR_VIDEO_ID)
+![Directory Tree Generator Extension](https://github.com/user-attachments/assets/f6bd5299-2021-42d9-bfb7-0387624cfa34)
 
 ## Requirements
 
