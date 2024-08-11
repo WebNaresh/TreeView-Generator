@@ -32,6 +32,21 @@
     "lint": "eslint src --ext ts",
     "test": "vscode-test"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/WebNaresh/TreeView-Generator.git"
+  },
+  "keywords": [
+    "vscode",
+    "extension",
+    "directory",
+    "tree",
+    "generator"
+  ],
+  "author": {
+    "name": "WebNaresh",
+    "email": "bhosalenaresh73@gmail.com"
+  },
   "devDependencies": {
     "@types/vscode": "^1.92.0",
     "@types/mocha": "^10.0.7",
