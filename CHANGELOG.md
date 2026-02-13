@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/WebNaresh/TreeView-Generator/compare/v1.0.0...v1.0.1) (2026-02-13)
+
+
+### Bug Fixes
+
+* remove version arg from publish command ([2095fe5](https://github.com/WebNaresh/TreeView-Generator/commit/2095fe53c9d549b511cc21228f1517eb33761255))
+
 # 1.0.0 (2026-02-13)
 
 

@@ -2,7 +2,7 @@
   "name": "treeview-generator",
   "displayName": "TreeView Generator",
   "description": "Generate and view the directory tree structure of your workspace.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "engines": {
     "vscode": "^1.92.0"
   },
