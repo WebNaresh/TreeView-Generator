@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import * as vscode from "vscode";
+import ignore from "ignore";
 
 export class DirectoryTreeExtension {
   private myStatusBarItem: vscode.StatusBarItem;
@@ -38,24 +39,12 @@ export class DirectoryTreeExtension {
 
     const rootPath = workspaceFolders[0].uri.fsPath;
     const framework = this.detectFramework(rootPath);
-
     console.log("Directory Tree:");
-    const treeStructure = this.getDirectoryTree(rootPath, "", framework);
-
-    const treeFilePath = path.join(rootPath, "Tree.md");
-    if (fs.existsSync(treeFilePath)) {
-      fs.appendFileSync(treeFilePath, treeStructure);
-    } else {
-      fs.writeFileSync(treeFilePath, treeStructure);
-    }
-    vscode.window.showInformationMessage(`Detected Framework: ${framework}`);
-  }
-  private getDirectoryTree(
-    dirPath: string,
-    indent: string = "",
-    framework: string
-  ): string {
-    const items = fs.readdirSync(dirPath);
+    
+    // Initialize ignore instance
+    const ig = ignore();
+    
+    // Add default skip folders
     let skipFolders: string[] = [
       "dist",
       "node_modules",
@@ -92,27 +81,63 @@ export class DirectoryTreeExtension {
     } else if (framework === "Flutter") {
       skipFolders.push("build");
     }
+    ig.add(skipFolders);
 
+    // Add .gitignore rules if available
+    const gitignorePath = path.join(rootPath, ".gitignore");
+    if (fs.existsSync(gitignorePath)) {
+      ig.add(fs.readFileSync(gitignorePath, "utf-8"));
+    }
+
+    const treeStructure = this.getDirectoryTree(rootPath, ig, rootPath, "", framework);
+
+    const treeFilePath = path.join(rootPath, "Tree.md");
+    if (fs.existsSync(treeFilePath)) {
+      fs.appendFileSync(treeFilePath, treeStructure);
+    } else {
+      fs.writeFileSync(treeFilePath, treeStructure);
+    }
+    vscode.window.showInformationMessage(`Detected Framework: ${framework}`);
+  }
+  private getDirectoryTree(
+    dirPath: string,
+    ig: ReturnType<typeof ignore>,
+    rootPath: string,
+    indent: string = "",
+    framework: string
+  ): string {
+    const items = fs.readdirSync(dirPath);
     let treeStructure = "";
 
     items.forEach((item, index) => {
       const itemPath = path.join(dirPath, item);
       const stats = fs.statSync(itemPath);
+
+      // Check if item should be ignored
+      const relativePath = path.relative(rootPath, itemPath);
+      // Append / to directories so 'dir/' pattern matches
+      const checkPath = relativePath + (stats.isDirectory() ? "/" : "");
+      
+      if (ig.ignores(checkPath)) {
+        return;
+      }
+
       const isLastItem = index === items.length - 1;
       const prefix = isLastItem ? "└── " : "├── ";
-      const newIndent = indent + (isLastItem ? "    " : "│   ");
+      
+      // Add current item to tree
+      treeStructure += `${indent}${prefix}${item}\n`;
 
+      // Recurse if directory
       if (stats.isDirectory()) {
-        if (!skipFolders.includes(item)) {
-          treeStructure += `${indent}${prefix}${item}\n`;
-          treeStructure += this.getDirectoryTree(
+         const newIndent = indent + (isLastItem ? "    " : "│   ");
+         treeStructure += this.getDirectoryTree(
             itemPath,
+            ig,
+            rootPath,
             newIndent,
             framework
-          );
-        }
-      } else {
-        treeStructure += `${indent}${prefix}${item}\n`;
+         );
       }
     });
 
