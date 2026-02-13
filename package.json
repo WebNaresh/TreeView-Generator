@@ -62,5 +62,8 @@
     "@vscode/test-cli": "^0.0.9",
     "@vscode/test-electron": "^2.4.0"
   },
-  "icon": "images/tree-view-logo.png"
+  "icon": "images/tree-view-logo.png",
+  "dependencies": {
+    "ignore": "^7.0.5"
+  }
 }
