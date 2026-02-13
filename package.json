@@ -51,7 +51,7 @@
         "@semantic-release/exec",
         {
           "prepareCmd": "bun run package && bunx vsce package",
-          "publishCmd": "bunx vsce publish ${nextRelease.version} --pat $VSCE_PAT --no-dependencies --packagePath *.vsix"
+          "publishCmd": "bunx vsce publish --pat $VSCE_PAT --no-dependencies --packagePath *.vsix"
         }
       ],
       "@semantic-release/git",
