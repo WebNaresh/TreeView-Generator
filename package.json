@@ -31,7 +31,33 @@
     "watch-tests": "tsc -p . -w --outDir out",
     "pretest": "yarn run compile-tests && yarn run compile && yarn run lint",
     "lint": "eslint src --ext ts",
-    "test": "vscode-test"
+    "test": "vscode-test",
+    "release": "semantic-release"
+  },
+  "release": {
+    "branches": [
+      "main"
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
+      [
+        "@semantic-release/npm",
+        {
+          "npmPublish": false
+        }
+      ],
+      [
+        "@semantic-release/exec",
+        {
+          "prepareCmd": "bun run package && bunx vsce package",
+          "publishCmd": "bunx vsce publish ${nextRelease.version} --pat $VSCE_PAT --no-dependencies --packagePath *.vsix"
+        }
+      ],
+      "@semantic-release/git",
+      "@semantic-release/github"
+    ]
   },
   "repository": {
     "type": "git",
@@ -49,18 +75,22 @@
     "email": "bhosalenaresh73@gmail.com"
   },
   "devDependencies": {
-    "@types/vscode": "^1.92.0",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
     "@types/mocha": "^10.0.7",
     "@types/node": "20.x",
+    "@types/vscode": "^1.92.0",
     "@typescript-eslint/eslint-plugin": "^7.14.1",
     "@typescript-eslint/parser": "^7.11.0",
-    "eslint": "^8.57.0",
-    "typescript": "^5.4.5",
-    "ts-loader": "^9.5.1",
-    "webpack": "^5.92.1",
-    "webpack-cli": "^5.1.4",
     "@vscode/test-cli": "^0.0.9",
-    "@vscode/test-electron": "^2.4.0"
+    "@vscode/test-electron": "^2.4.0",
+    "@vscode/vsce": "^3.7.1",
+    "eslint": "^8.57.0",
+    "semantic-release": "^25.0.3",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.4.5",
+    "webpack": "^5.92.1",
+    "webpack-cli": "^5.1.4"
   },
   "icon": "images/tree-view-logo.png",
   "dependencies": {
